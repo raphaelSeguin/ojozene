@@ -1,0 +1,27 @@
+
+- cacher l'app tant que tout n'est pas charger. loadbar ?
+- parametrer leafmap pour que ce soit plus joli :)
+    - enlever les bouton zoom
+    - simplifier les couleurs
+- ustiliser la session pour changer de gif et de song à chaque fois...
+- afficher la description meteo en dessous du gif
+- afficher le titre et l'artiste du morceau
+
+
+- script démarrage dev server et react avec npm et concurrently
+- script de deploiement (build etc...) heroku post-build 
+
+- tests de mots clefs de openweather pour giphy ('clear sky' ne marche pas par exemple)
+- prévoir réponse vide (frog)
+
+#############################################################
+
+Que se passe-t-il lorsque l'utilisateur arrive sur le site :
+page welcome, l'utilisateur est invité à cliquer pour accéder à la météo
+page météo avec la map, le gif et la chason qui se déclencher
+icone about dans un coin pour popup about.
+
+- Welcome: bouton entrer
+- Meteo: app
+- About: modal avec bouton close retour à la météo.
+
