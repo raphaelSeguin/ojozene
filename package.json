@@ -9,7 +9,7 @@
     "start": "cd backend && npm start",
     "start:dev": "concurrently \"cd back && nodemon\" \"cd front && npm start\" ",
     "start:build": "cd front && npm run build && cd ../backend && npm start",
-    "heroku-postbuild": "cd client && npm i && npm run build && cd ../backend && npm i"
+    "heroku-postbuild": "cd front && npm i && npm run build && cd ../backend && npm i"
   },
   "author": "",
   "license": "ISC",
