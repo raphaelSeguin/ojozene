@@ -43,7 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/API', APIRouter);
 if (process.env.NODE_ENV === 'production') {
-    app.use('/', express.static('../../front/build/'));
+    app.use('/', express.static('../front/build/'));
 }
 
 /*
