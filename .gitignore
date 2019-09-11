@@ -60,7 +60,9 @@ typings/
 # next.js build output
 .next
 
-#ok
-node_modules
+#personnal
 config.js
 _todo
+
+#mac
+.DS_Store
