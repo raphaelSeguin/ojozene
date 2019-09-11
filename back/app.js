@@ -9,8 +9,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 const APIRouter = require('./routes/API');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 
 // const connexion = require('./db/connection');
 
@@ -41,12 +39,12 @@ app.use(session(sessionOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/static', express.static(path.join(__dirname, 'public')));
+//app.use('/static', express.static(path.join(__dirname, 'public')));
 
-
-app.use('/users', usersRouter);
 app.use('/API', APIRouter);
-app.use('/', indexRouter);
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static('../../front/build/'));
+}
 
 /*
 En production :
