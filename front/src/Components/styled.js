@@ -149,9 +149,10 @@ export const MapFooter = styled.div`
     bottom: 0px;
     z-index: 1000;
     visibility: ${ props => props.visible ? 'visible' : 'hidden'}
-    margin: 50px auto;
+    margin: 10px auto;
     text-align: center;
-    button {
+    button, input {
+        width: 150px;
         outline: none;
         color: ${colors.nightblue};
         font-size: 20px;
@@ -160,11 +161,27 @@ export const MapFooter = styled.div`
         border: 2px solid ${colors.sun};
         background-color: ${colors.skyblue};
         transition: color 0.4s, border 0.4s;
-        margin: 0 10px;
+        margin: 10px 50px;
+    }
+    input {
+        background-color: ${colors.cloud};
+        text-align: center;
     }
     button:hover {
         color: ${colors.nightbluelight};
         border: 2px solid ${colors.nightblue};
+    }
+    .smaller {
+        width: 100px;
+    }
+    .left {
+        border-right: none;
+        border-radius: 25px 0 0 25px;
+        margin: 0;
+    }
+    .right {
+        border-radius: 0 25px 25px 0;
+        margin: 0;
     }
 `
 

@@ -9,17 +9,18 @@ import Collapse from  'react-bootstrap/Collapse';
 
 import Temperature from './Temperature';
 import Playlist from    './Playlist';
+import MailInput from   './MailInput';
 
 import { Rainbow, MapContainer, MapDisplay, WeatherDescription, Sticker, MapFooter } from './styled';
 
-import getPos from               '../utils/geoloc';
-import getMapboxAccessToken from '../utils/getMapboxAccessToken';
-import getSticker from           '../utils/getSticker.js';
-import getWeather from           '../utils/getWeather.js';
-import getSong from              '../utils/getSong.js';
-import getPlaylist from          '../utils/getPlaylist.js';
-import postSong from             '../utils/postSong.js';
-import log from                  '../utils/log';
+import getPos from               '../calls/geoloc';
+import getMapboxAccessToken from '../calls/getMapboxAccessToken';
+import getSticker from           '../calls/getSticker.js';
+import getWeather from           '../calls/getWeather.js';
+import getSong from              '../calls/getSong.js';
+import getPlaylist from          '../calls/getPlaylist.js';
+import postSong from             '../calls/postSong.js';
+// import log from                  '../calls/log';
 
 import colors from './colors';
 import '../../node_modules/leaflet/dist/leaflet.css';
@@ -49,7 +50,7 @@ export default ({ audioContext }) => {
     const [aboutCollapse, setAboutCollapse]       = useState(false);
     const [playlistCollapse, setPlaylistCollapse] = useState(false);
 
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
 
     const [coords, setCoords] = useState([]);
     const [mapboxAccessToken, setMapboxAccessToken] = useState('');
@@ -90,25 +91,19 @@ export default ({ audioContext }) => {
         }
     }
 
-    // looks dirty but works nicely
-    // document.body.onclick = () => {
-    //     setAboutCollapse(false);
-    //     setPlaylistCollapse(false);
-    // }
-
     // geolocation
     useEffect( () => {
         getPos()
             .then( pos => setCoords( [pos.coords.latitude, pos.coords.longitude ] ))
             .catch( err => {
                 console.log(err);
-                if (err.code === 1) {
-                    setMessage( 'please enable geolocation' );
-                } else if (err.code === 2) {
-                    setMessage( 'geolocation is impossible' )
-                } else if (err.code === 3) {
-                    setMessage( 'geolocation takes too much time' );
-                }
+                // if (err.code === 1) {
+                //     setMessage( 'please enable geolocation' );
+                // } else if (err.code === 2) {
+                //     setMessage( 'geolocation is impossible' )
+                // } else if (err.code === 3) {
+                //     setMessage( 'geolocation takes too much time' );
+                // }
             });
     }, []);
 
@@ -118,9 +113,6 @@ export default ({ audioContext }) => {
             .then( setMapboxAccessToken )
             .catch( err => {
                 console.log(err);
-                if (err.code === 1) {
-                    setMessage( err );
-                }
             })
     }, []);
 
@@ -129,6 +121,7 @@ export default ({ audioContext }) => {
         if (coords.length && mapboxAccessToken) {
             let mymap = L.map('weather-map', {zoomControl: false})
                 .setView(coords, 17);
+
             L.tileLayer(`https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${mapboxAccessToken}`, {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
@@ -143,7 +136,6 @@ export default ({ audioContext }) => {
     useEffect( () => {
         if( coords.length ) {
             getWeather(coords)
-                .then( log )
                 .then( setWeatherReport )
         }
     }, [coords]);
@@ -155,7 +147,6 @@ export default ({ audioContext }) => {
             const query = weatherDescriptionArray.length > 1 ? weatherDescriptionArray[weatherDescriptionArray.length-1] : weatherDescriptionArray[0];
             getSticker(query) 
                 .then( setStickerURL )
-                //.then( () => setLoading(false) )
         }
     }, [weatherReport]);
     
@@ -164,7 +155,9 @@ export default ({ audioContext }) => {
         if ( weatherReport ) {
             getSong(weatherReport.weather[0].description)
                 .then( song => { 
-                    postSong(song);
+                    postSong(song)
+                        .then( getPlaylist )
+                        .then( setPlaylist )
                     return song;
                 })
                 .then( song => playSong(audioContext)(song.preview) )
@@ -172,25 +165,10 @@ export default ({ audioContext }) => {
         }
     }, [weatherReport])
 
-    // get playlist
-    useEffect( () => {
-        getPlaylist()
-            .then( setPlaylist)
-    }, [])
     return (
         <Container fluid>
             <Row>
                 <Col lg={{span: 10, offset: 1}} sm={{span:12}}>
-                {/* {
-                    !loadingStatus && message &&
-                    <>
-                        <h1>{message}</h1>
-                        <Button
-                            onClick={ () => window.location.reload()}
-                        >Try again
-                        </Button>
-                    </>
-                }  */}
                     { loadingStatus && <LoadBar /> }
                     <MapContainer visible={!loadingStatus}>
                         
@@ -207,6 +185,7 @@ export default ({ audioContext }) => {
                         <Sticker stickerURL={stickerURL} />
                         <MapFooter>
                             <button
+                                className="smaller"
                                 onClick={ e => playlistCollapseToggle(e)}
                                 aria-controls="playlist-collapse"
                                 aria-expanded={playlistCollapse}
@@ -214,12 +193,14 @@ export default ({ audioContext }) => {
                                 Playlist
                             </button>
                             <button
+                                className="smaller"
                                 onClick={ e => aboutCollapseToggle(e)}
                                 aria-controls="about-collapse"
                                 aria-expanded={aboutCollapse}
                             >
                                 About
                             </button>
+                            <MailInput />
                         </MapFooter>
                     </MapContainer>
                 </Col>

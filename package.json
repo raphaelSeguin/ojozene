@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"mongod\" \"cd back && nodemon \" \"cd front && npm start\""
+    "dev": "concurrently \"mongod\" \"cd back && nodemon \" \"cd front && npm start\"",
+    "start": "cd backend && npm start",
+    "start:dev": "concurrently \"cd back && nodemon\" \"cd front && npm start\" ",
+    "start:build": "cd client && npm run build && cd ../backend && npm start",
+    "heroku-postbuild": "cd client && npm i && npm run build && cd ../backend && npm i"
   },
   "author": "",
   "license": "ISC",

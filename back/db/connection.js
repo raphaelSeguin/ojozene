@@ -1,11 +1,11 @@
 const mongo = require('mongodb');
 const { MongoClient } = mongo;
-const { dbUser, dbPass, dbName, dbURL } = require('../../config.js');
+const { DB_USER, DB_PASS, DB_NAME, DB_URL } = process.env;
 
-// uri = `mongodb://user1:userOne12@ds161397.mlab.com:61397/prject12`
+const URL = `mongodb://${DB_USER}:${DB_PASS}@${DB_URL}/${DB_NAME}`;
 
-const URL = `mongodb://${dbUser}:${dbPass}@ds161397.mlab.com:61397/${dbName}`;
+const client = new MongoClient(URL, { useNewUrlParser: true });
 
-const client = new MongoClient(dbURL, { useNewUrlParser: true });
-
-module.exports = client.connect().then( client => client.db(dbName) )
+module.exports = client.connect()
+    .then( client => client.db(DB_NAME) )
+    .catch( err => console.log(err))

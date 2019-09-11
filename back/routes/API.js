@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, findToto } = require('../db/db');
-const { mapboxAccessToken } = require('../../config.js');
-const { giphyAccessToken } = require('../../config.js');
-const { openweatherAccessToken } = require('../../config.js');
+const { addMail } = require('../db/db');
+
+const { MAPBOX_TOKEN, GIPHY_TOKEN, OPENWEATHER_TOKEN } = process.env;
+
 const axios = require('axios');
 
 const log = data => {
@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
   res.send('project 12 API');
 });
 
-router.get('/mapboxaccesstoken', (req, res) => res.send( mapboxAccessToken ) )
+router.get('/mapboxaccesstoken', (req, res) => res.send( MAPBOX_TOKEN ) )
 
 router.get('/giphysticker', (req, res) => {
     
@@ -23,7 +23,7 @@ router.get('/giphysticker', (req, res) => {
 
     axios.get(`https://api.giphy.com/v1/stickers/search`, {
       params: {
-        api_key: giphyAccessToken,
+        api_key: GIPHY_TOKEN,
         q
       }
     })
@@ -33,7 +33,7 @@ router.get('/giphysticker', (req, res) => {
           }
           return axios.get(`https://api.giphy.com/v1/stickers/search`, {
             params: {
-              api_key: giphyAccessToken,
+              api_key: GIPHY_TOKEN,
               q: "frog"
             }
           })
@@ -58,7 +58,7 @@ router.get('/weather', (req, res) => {
         params: {
             lat: latitude,
             lon: longitude,
-            appid: openweatherAccessToken
+            appid: OPENWEATHER_TOKEN
         }
     })
         .then( response =>  res.json(response.data) )
@@ -68,6 +68,29 @@ router.get('/weather', (req, res) => {
 
 router.get('/song', (req, res) => {
     const {q} = req.query
+    // const tracks = [];
+
+    // const getTracks = async (query, array, max) => 
+    //   await axios.get(`https://api.deezer.com/search/track`, { params: { query } })
+    //     .then( res => {
+    //       res.data.data.forEach( song => {
+    //         const { id, title, preview, link } = song;
+    //         array.push({ id, title, preview, link });
+    //       })
+    //       if (res.data.next && array.length < max) {
+    //         return getTracks(query, array, max);
+    //       }
+    //       return;
+    //     });
+      
+    // getTracks(q, tracks, 1000)
+    //     .then( () => {
+    //       const randomIndex = Math.floor(Math.random() * tracks.length);
+    //       console.log('I got ' + tracks.length + ' songs');
+    //       res.json(tracks[randomIndex]);
+    //     })
+    //     .catch( err => res.json(err));
+
     axios.get(`https://api.deezer.com/search/track`, {
         params: {
           q
@@ -75,16 +98,13 @@ router.get('/song', (req, res) => {
     })
     .then( response => {
         const randomIndex = Math.floor(Math.random() * response.data.data.length);
-
         const choice = response.data.data[randomIndex];
-
         const { id, title, preview, link } = choice;
         const artist  = choice.artist.name;
 
         res.json({ id, title, preview, link, artist });
     })
-    .catch( err => res.json(err))
-    ;
+    .catch( err => res.json(err));
 })
 
 router.get('/playlist', (req, res) => {
@@ -102,7 +122,20 @@ router.post('/playlist', (req, res) => {
   res.send('OK');
 })
 
+router.post('/addmail', (req, res) => {
+    const {email} = req.body;
+    if (!email) {
+      res.status(400).send('Bad Request');
+    }
+    addMail(email)
+      .then( () => res.status(201).end() )
+      .catch( () => res.status(503).end() )
+})
+
 module.exports = router;
+
+
+
 
 // router.get('/random-value', (req, res) => {
 //   res.json( {value: Math.floor(Math.random() * 0xffffffff)} );

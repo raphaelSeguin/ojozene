@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -8,15 +12,17 @@ const APIRouter = require('./routes/API');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
-const connexion = require('./db/connection');
+// const connexion = require('./db/connection');
 
-const store = new MongoDBStore({
-    uri: `mongodb://user1:userOne12@ds161397.mlab.com:61397/prject12`,
+const { DB_USER, DB_PASS, DB_NAME, DB_URL } = process.env;
+
+const mongoDBStore = new MongoDBStore({
+    uri: `mongodb://${DB_USER}:${DB_PASS}@${DB_URL}/${DB_NAME}`,
     collection: 'p12-sessions'
 })
 
 const sessionOptions = {
-    store: store,
+    store: mongoDBStore,
     secret: 'pshhhh',
     resave: false,
     saveUninitialized: true,
