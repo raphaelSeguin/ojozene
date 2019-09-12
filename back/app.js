@@ -39,23 +39,24 @@ app.use(session(sessionOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.use('/API', APIRouter);
 if (process.env.NODE_ENV === 'production') {
+
+    // enforce HTTPS
+
+    app.all('*', (req, res, next) => {
+        if (req.protocol !== 'https') {
+            res.redirect('https://' + req.hostname + req.url)
+        } else {
+            return next();
+        }
+    })
+
     app.use('/', express.static('../front/build/'));
 }
 
-/*
-En production :
-l'app sert le front react sur "/*" et les API partout ailleurs.
-La base de donnée est mlab 
+app.use('/API', APIRouter);
 
-En dev :
-Selon la valeur des variables : localDb et servesFront
-l'app sert seulement l'API.
-Base de donnée locale.
-*/
 
 app.use('/', (err, req, res, next) => {
     res.send('errror');
