@@ -17,7 +17,7 @@ export default () => {
 
     const [stage, setStage] = useState(stages.WELCOME);
 
-    const initAudioContext = () => audioContext = audioContext || new AudioContext();
+    const initAudioContext = () => audioContext = audioContext || new (AudioContext || window.webkitAudioContext)();
 
     const gotoApp = () => {
         setStage('APP');
