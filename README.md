@@ -2,7 +2,7 @@
 
 ## To run the app locally:
 
-* create a .env file in the back/ directory and fill with tokens and credentials for the database and the APIs
+* create a .env file in the back/ directory and fill in tokens and credentials for the database and the APIs
 ```
 DB_USER=<db_user_name>
 DB_PASS=<db_password>
