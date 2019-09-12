@@ -30,17 +30,27 @@ const playSong = (audioContext) => (songUrl) => {
     const bufferSource = audioContext.createBufferSource();
     const request = new XMLHttpRequest();
 
+    const decodeSuccess = function (buffer) {
+        bufferSource.buffer = buffer;
+        bufferSource.connect(audioContext.destination);
+        bufferSource.loop = true;
+        bufferSource.start();
+    }
+    const decodeError = function (error) {
+        console.log(error)
+    }
+
     request.open('GET', songUrl, true);
     request.responseType = 'arraybuffer';
     request.onload = () => {
-        audioContext.decodeAudioData(request.response)
-            .then( buffer => {
-                bufferSource.buffer = buffer;
-                bufferSource.connect(audioContext.destination);
-                bufferSource.loop = true;
-                bufferSource.start();
-            })
-        };
+        audioContext.decodeAudioData(request.response, decodeSuccess, decodeError);
+        //     .then( buffer => {
+        //         bufferSource.buffer = buffer;
+        //         bufferSource.connect(audioContext.destination);
+        //         bufferSource.loop = true;
+        //         bufferSource.start();
+        //     })
+        // };
     request.send();
 }
 
