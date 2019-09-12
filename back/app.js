@@ -45,12 +45,11 @@ if (process.env.NODE_ENV === 'production') {
     // enforce HTTPS
 
     app.use( (req, res, next) => {
-        if (req.protocol !== 'https') {
-            // res.redirect('https://' + req.hostname + req.url);
-            return res.redirect(['https://', req.get('Host'), req.baseUrl].join(''))
-        } else {
+        console.log('x-forwarded-proto : ', req.get('x-forwarded-proto'));
+        if ( req.get('x-forwarded-proto') === 'https' ) {
             return next();
         }
+        return res.redirect(['https://', req.get('Host'), req.baseUrl].join(''));
     })
 
     app.use('/', express.static('../front/build/'));
