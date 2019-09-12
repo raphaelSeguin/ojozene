@@ -196,3 +196,12 @@ export const Sticker = styled.div`
     top: 100px;
     height: 200px;
 `
+export const Collapsible = styled.div`
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 30px 30px;
+    border: none;
+    color: ${colors.nightblue};
+    h1, p {
+        margin: 0 30px;
+    }
+`

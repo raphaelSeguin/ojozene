@@ -10,8 +10,6 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 const APIRouter = require('./routes/API');
 
-// const connexion = require('./db/connection');
-
 const { DB_USER, DB_PASS, DB_NAME, DB_URL } = process.env;
 
 const mongoDBStore = new MongoDBStore({
@@ -43,13 +41,13 @@ app.use(express.urlencoded({ extended: false }));
 if (process.env.NODE_ENV === 'production') {
 
     // enforce HTTPS
-
     app.use( (req, res, next) => {
-        console.log('x-forwarded-proto : ', req.get('x-forwarded-proto'));
+        // use req.get() cause req.secure won't work with heroku
         if ( req.get('x-forwarded-proto') === 'https' ) {
             return next();
         }
-        return res.redirect(['https://', req.get('Host'), req.baseUrl].join(''));
+        // redirects with status 301 (moved permanently)
+        return res.redirect(301, ['https://', req.get('Host'), req.baseUrl].join(''));
     })
 
     app.use('/', express.static('../front/build/'));

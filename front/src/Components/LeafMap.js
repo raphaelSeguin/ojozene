@@ -10,8 +10,9 @@ import Collapse from  'react-bootstrap/Collapse';
 import Temperature from './Temperature';
 import Playlist from    './Playlist';
 import MailInput from   './MailInput';
+import LoadBar from     './LoadBar';
 
-import { Rainbow, MapContainer, MapDisplay, WeatherDescription, Sticker, MapFooter } from './styled';
+import { MapContainer, MapDisplay, WeatherDescription, Sticker, MapFooter, Collapsible } from './styled';
 
 import getPos from               '../calls/geoloc';
 import getMapboxAccessToken from '../calls/getMapboxAccessToken';
@@ -22,7 +23,6 @@ import getPlaylist from          '../calls/getPlaylist.js';
 import postSong from             '../calls/postSong.js';
 // import log from                  '../calls/log';
 
-import colors from './colors';
 import '../../node_modules/leaflet/dist/leaflet.css';
 
 const playSong = (audioContext) => (songUrl) => {
@@ -224,26 +224,3 @@ export default ({ audioContext }) => {
     )
 }
 
-const Collapsible = styled.div`
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 0 0 30px 30px;
-    border: none;
-    color: ${colors.nightblue};
-    h1, p {
-        margin: 0 30px;
-    }
-`
-
-const LoadBar = () =>
-    <Rainbow duration={4}>
-        <span>L</span>
-        <span>o</span>
-        <span>a</span>
-        <span>d</span>
-        <span>i</span>
-        <span>n</span>
-        <span>g</span>
-        <span>.</span>
-        <span>.</span>
-        <span>.</span>
-    </Rainbow>
