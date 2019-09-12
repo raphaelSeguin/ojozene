@@ -11,22 +11,24 @@ export const PimpedModal = styled(Modal)`
     color: ${colors.nightblue};
     div.modal-content {
         border-radius: 50px;
-        border: 10px solid ${colors.cloud};
+        border: 5px solid ${colors.cloud};
         background-color: ${colors.skyblue};
     }
     div.modal-body {
-        padding: 50px;
+        padding: 0px;
     }
     h1 {
-        margin: 40px;
+        margin: 20px;
         font-weight: 900;
+        font-size: 3em;
     }
     button {
         color: ${colors.skyblue};
-        font-size: 30px;
+        font-size: 2em;
         font-weight: inherit;
         border-radius: 20px;
         border: none;
+        margin: 20px;
         background-color: ${colors.nightblue};
         transition: color 0.7s, background-color 0.7s;
     }
@@ -37,8 +39,8 @@ export const PimpedModal = styled(Modal)`
 `
 
 export const Paragraph = styled.p`
-    font-size: 30px;
-    margin: 40px;
+    font-size: 1.3em;
+    margin: 0px;
 `;
 
 const blink = keyframes`
@@ -69,8 +71,10 @@ const blink = keyframes`
 `
 
 export const Rainbow = styled.div`
-    font-size: 80px;
+    margin-top: 50px;
+    font-size: 3em;
     font-weight: 800;
+    text-align: center;
     span:nth-child(1n) {
         animation-timing-function: linear;
         animation: ${blink} ${props => props.duration}s infinite;
@@ -109,7 +113,7 @@ export const Rainbow = styled.div`
 `
 
 export const Background = styled.div`
-    background-image: linear-gradient( #0cf, #1e7 );
+    background-image: linear-gradient( ${colors.skyblue}, ${colors.cloud} );
     height: 100%;
     overflow: hide;
 `;
@@ -118,8 +122,8 @@ export const Background = styled.div`
 export const MapContainer = styled.div`
     position: relative;
     height: 400px;
-    margin: 50px;
-    margin-bottom: 10px;
+    margin: 50px 0;
+    margin-bottom: 0px;
     div {
         visibility: ${ props => !!props.visible ? 'visible' : 'hidden'}
     }
@@ -129,7 +133,7 @@ export const MapDisplay = styled.div`
     position: absolute;
     height: 400px;
     width: 100%;
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
     top: 0px;
 `
 

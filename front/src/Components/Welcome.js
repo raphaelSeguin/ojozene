@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import { PimpedModal, Paragraph } from './styled';
 
@@ -29,12 +31,15 @@ export default ({buttonHandler, initAudioContext}) => {
             centered
         >
             <Modal.Body>
-                <h1>OJO ZENE</h1>
-                <Paragraph>
-                    OJO means weather in yoruba.<br/>
-                    ZENE means music in Hungarian.<br/>
-                    Music recommandation based on weather ?
-                </Paragraph>
+                <h1>ojozene</h1>
+                <Row>
+                    <Col md={{span: 8, offset: 2}} sm={{span: 10, offset: 1}}>
+                        <Paragraph>
+                            ojozene plays you a song matching the weather on your location.
+                        </Paragraph>
+                    </Col>
+                </Row>
+                
                 <Button
                     onClick={() => {
                         initAudioContext();
