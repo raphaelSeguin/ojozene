@@ -26,7 +26,7 @@ import postSong from             '../calls/postSong.js';
 import '../../node_modules/leaflet/dist/leaflet.css';
 
 const playSong = (audioContext) => (songUrl) => {
-    audioContext = audioContext || new (AudioContext || window.webkitAudioContext)();
+    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
     const bufferSource = audioContext.createBufferSource();
     const request = new XMLHttpRequest();
 
