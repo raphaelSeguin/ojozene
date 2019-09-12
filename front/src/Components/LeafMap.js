@@ -21,7 +21,6 @@ import getWeather from           '../calls/getWeather.js';
 import getSong from              '../calls/getSong.js';
 import getPlaylist from          '../calls/getPlaylist.js';
 import postSong from             '../calls/postSong.js';
-// import log from                  '../calls/log';
 
 import '../../node_modules/leaflet/dist/leaflet.css';
 
@@ -42,8 +41,8 @@ const playSong = (audioContext) => (songUrl) => {
 
     request.open('GET', songUrl, true);
     request.responseType = 'arraybuffer';
-    request.onload = () => {
-        audioContext.decodeAudioData(request.response, decodeSuccess, decodeError);
+    request.onload = () => audioContext.decodeAudioData(request.response, decodeSuccess, decodeError);
+
         //     .then( buffer => {
         //         bufferSource.buffer = buffer;
         //         bufferSource.connect(audioContext.destination);
@@ -51,6 +50,7 @@ const playSong = (audioContext) => (songUrl) => {
         //         bufferSource.start();
         //     })
         // };
+
     request.send();
 }
 
@@ -233,4 +233,5 @@ export default ({ audioContext }) => {
         </Container>
     )
 }
+
 
