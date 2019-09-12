@@ -1,6 +1,6 @@
 # ojozene
 
-## To run the app locally:
+### To run the app locally:
 
 * create a .env file in the back/ directory and fill in your credentials for a mongoDB database and tokens for [mapbox](https://docs.mapbox.com/help/glossary/access-token/), [giphy](https://developers.giphy.com/) and [openweather](https://openweathermap.org/appid) APIs ([deezer](https://developers.deezer.com/) is token free).
 ```
