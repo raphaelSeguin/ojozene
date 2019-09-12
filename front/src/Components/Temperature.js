@@ -20,15 +20,16 @@ export default ({temp, initUnit}) => {
         }
     }, [temp, unit])
     return (
-        <>
+        <span 
+        onClick={() => setUnit(unit === 'CELSIUS' ? 'FAHRENHEIT' : 'CELSIUS')}>
             <FixedWidth
-                onClick={() => setUnit(unit === 'CELSIUS' ? 'FAHRENHEIT' : 'CELSIUS')}
+
             >
                 { displayTemp }{ displayUnit }
                 
             </FixedWidth>
             <SmallNote>(click to switch units)</SmallNote>
-        </>
+        </span>
     )
 }
 
@@ -36,6 +37,6 @@ const FixedWidth = styled.div`
     display: inline-block;
     width: 100px;
 `
-const SmallNote = styled.span`
+const SmallNote = styled.div`
     font-size: 10px;
 `

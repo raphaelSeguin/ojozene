@@ -178,7 +178,7 @@ export default ({ audioContext }) => {
     return (
         <Container fluid>
             <Row>
-                <Col lg={{span: 10, offset: 1}} sm={{span:12}}>
+                <Col lg={{span: 8, offset: 2}} sm={{span:12}}>
                     { loadingStatus && <LoadBar /> }
                     <MapContainer visible={!loadingStatus}>
                         
@@ -216,7 +216,7 @@ export default ({ audioContext }) => {
                 </Col>
             </Row>
             <Row>
-                <Col lg={{span: 6, offset: 3}} sm={{span: 10, offset: 1}}>
+                <Col lg={{span: 8, offset: 2}} sm={{span:12}}>
                     <Collapse in={aboutCollapse}>
                         <Collapsible>
                             <p>FullStack Javascript Tech Degree final project @ <a href="https://teamtreehouse.com/raphalseguin" target="blank">Teamtreehouse.com</a></p>
