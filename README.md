@@ -18,7 +18,7 @@ OPENWEATHER_TOKEN=<openweather_token>
 
 or
 
-* add ```NODE_ENV=production``` to the .env file in the /back directory, run ```npm run build``` in the /front directory and ```npm start```in the root directory.
+* add ```NODE_ENV=production``` to the .env file in the /back directory and then``` cd front && npm run build && cd ../back && npm start```.
 
 
 ### Tests:
