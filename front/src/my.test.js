@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Temperature from './Components/Temperature';
-import LeafMap from './Components/LeafMap';
 
 it('Temperature renders without crashing', () => {
     const div = document.createElement('div');

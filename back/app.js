@@ -14,22 +14,22 @@ const { DB_USER, DB_PASS, DB_NAME, DB_URL } = process.env;
 
 const mongoDBStore = new MongoDBStore({
     uri: `mongodb://${DB_USER}:${DB_PASS}@${DB_URL}/${DB_NAME}`,
-    collection: 'p12-sessions'
-})
+    collection: 'p12-sessions',
+});
 
 const sessionOptions = {
     store: mongoDBStore,
     secret: 'pshhhh',
     resave: false,
     saveUninitialized: true,
-    cookie: { 
+    cookie: {
         path: '/',
         httpOnly: false,
         secure: false,
         maxAge: null,
-        sameSite: true
-    }
-}
+        sameSite: true,
+    },
+};
 
 const app = express();
 
@@ -39,7 +39,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 if (process.env.NODE_ENV === 'production') {
-
     // enforce HTTPS
     app.use( (req, res, next) => {
         // use req.get() cause req.secure won't work with heroku
@@ -48,17 +47,16 @@ if (process.env.NODE_ENV === 'production') {
         }
         // redirects with status 301 (moved permanently)
         return res.redirect(301, ['https://', req.get('Host'), req.baseUrl].join(''));
-    })
+    });
 
     app.use('/', express.static('../front/build/'));
 }
 
 app.use('/API', APIRouter);
 
-
 app.use('/', (err, req, res, next) => {
-    res.send('errror');
     console.log('\nServer Error\n\n', err);
-})
+    res.send('errror');
+});
 
 module.exports = app;

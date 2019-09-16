@@ -1,6 +1,6 @@
 # ojozene
 
-[_ojozene_](https://ojozene.herokuapp.com) is my final project for teamtreehouse.com FullStack Javascript Techdegree.
+[_ojozene_](https://ojozene.herokuapp.com) is my final and 12th project for teamtreehouse.com FullStack Javascript Techdegree.
 
 ### To run the app locally:
 
@@ -14,7 +14,9 @@ MAPBOX_TOKEN=<mapbox_token>
 GIPHY_TOKEN=<giphy_token>
 OPENWEATHER_TOKEN=<openweather_token>
 ```
-* npm run dev
+* ```npm run dev``` 
+or
+* add ```NODE_ENV=production``` to the .env file in the /back directory, run ```npm run build``` in the /front directory and ```npm start```in the root directory.
 
 ---
 
