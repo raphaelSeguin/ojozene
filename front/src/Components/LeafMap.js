@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import L from 'leaflet';
-import styled from 'styled-components';
 
 import Container from 'react-bootstrap/Container';
 import Row from       'react-bootstrap/Row';

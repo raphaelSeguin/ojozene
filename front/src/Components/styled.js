@@ -2,7 +2,7 @@ import {
     Modal
 } from 'react-bootstrap';
 import styled, {keyframes } from 'styled-components';
-import colors from './colors';
+import colors from '../colors';
 
 export const PimpedModal = styled(Modal)`
     font-family: 'Quicksand', sans-serif;

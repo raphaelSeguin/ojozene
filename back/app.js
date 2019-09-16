@@ -49,12 +49,12 @@ if (process.env.NODE_ENV === 'production') {
         return res.redirect(301, ['https://', req.get('Host'), req.baseUrl].join(''));
     });
 
-    app.use('/', express.static('../front/build/'));
+    app.use('/', express.static(path.join('..', '/front', '/build/')));
 }
 
 app.use('/API', APIRouter);
 
-app.use('/', (err, req, res, next) => {
+app.use('/', (err, req, res) => {
     console.log('\nServer Error\n\n', err);
     res.send('errror');
 });
