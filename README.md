@@ -1,6 +1,9 @@
 # ojozene
 
-[_ojozene_](https://ojozene.herokuapp.com) is my final and 12th project for teamtreehouse.com FullStack Javascript Techdegree.
+[_ojozene_](https://ojozene.herokuapp.com) is my final and 12th project for teamtreehouse.com FullStack Javascript Techdegree. It is hosted on [heroku](https://www.heroku.com) and the DB is provided by [mlab](https://mlab.com/).
+
+This project consists of a REST API build with NodeJS, express and MongoDB and a frontend app using React, react-bootstrap for general layout, styled components to customize the elements, axios for AJAX handling and leaflet to display the map.
+External APIs used are [mapbox](https://docs.mapbox.com/help/glossary/access-token/), [giphy](https://developers.giphy.com/), [openweather](https://openweathermap.org/appid) and [deezer](https://developers.deezer.com/).
 
 ### To run the app locally:
 
