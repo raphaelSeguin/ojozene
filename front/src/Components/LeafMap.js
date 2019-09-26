@@ -9,63 +9,17 @@ import Collapse from  'react-bootstrap/Collapse';
 import Temperature from './Temperature';
 import Playlist from    './Playlist';
 import MailInput from   './MailInput';
-import LoadBar from     './LoadBar';
+
+import playSong from '../calls/playSong.js';
 
 import { MapContainer, MapDisplay, WeatherDescription, Sticker, MapFooter, Collapsible } from './styled';
 
-import getPos from               '../calls/geoloc';
-import getMapboxAccessToken from '../calls/getMapboxAccessToken';
-import getSticker from           '../calls/getSticker.js';
-import getWeather from           '../calls/getWeather.js';
-import getSong from              '../calls/getSong.js';
-import getPlaylist from          '../calls/getPlaylist.js';
-import postSong from             '../calls/postSong.js';
-
 import '../../node_modules/leaflet/dist/leaflet.css';
 
-const playSong = (audioContext) => (songUrl) => {
-    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-    const bufferSource = audioContext.createBufferSource();
-    const request = new XMLHttpRequest();
+export default ({ coords, mapboxAccessToken, stickerURL, weatherReport, playlist }) => {
 
-    const decodeSuccess = function (buffer) {
-        bufferSource.buffer = buffer;
-        bufferSource.connect(audioContext.destination);
-        bufferSource.loop = true;
-        bufferSource.start();
-    }
-    const decodeError = function (error) {
-        console.log(error)
-    }
-
-    request.open('GET', songUrl, true);
-    request.responseType = 'arraybuffer';
-    request.onload = () => audioContext.decodeAudioData(request.response, decodeSuccess, decodeError);
-
-        //     .then( buffer => {
-        //         bufferSource.buffer = buffer;
-        //         bufferSource.connect(audioContext.destination);
-        //         bufferSource.loop = true;
-        //         bufferSource.start();
-        //     })
-        // };
-
-    request.send();
-}
-
-export default ({ audioContext }) => {
-
-    const [loadingStatus, setLoading]                = useState(true);
     const [aboutCollapse, setAboutCollapse]       = useState(false);
     const [playlistCollapse, setPlaylistCollapse] = useState(false);
-
-    // const [message, setMessage] = useState('');
-
-    const [coords, setCoords] = useState([]);
-    const [mapboxAccessToken, setMapboxAccessToken] = useState('');
-    const [weatherReport, setWeatherReport] = useState('');
-    const [stickerURL, setStickerURL] = useState('');
-    const [playlist, setPlaylist] = useState([]);
 
     const playlistCollapseToggle = e => {
         e.stopPropagation();
@@ -95,35 +49,9 @@ export default ({ audioContext }) => {
         else if (aboutCollapse && !playlistCollapse) {
             setAboutCollapse(false);
         }
-        else if (aboutCollapse && playlistCollapse) {
-            console.log('what happenneeeeddd???!!!')
-        }
     }
-
-    // geolocation
-    useEffect( () => {
-        getPos()
-            .then( pos => setCoords( [pos.coords.latitude, pos.coords.longitude ] ))
-            .catch( err => {
-                console.log(err);
-                // if (err.code === 1) {
-                //     setMessage( 'please enable geolocation' );
-                // } else if (err.code === 2) {
-                //     setMessage( 'geolocation is impossible' )
-                // } else if (err.code === 3) {
-                //     setMessage( 'geolocation takes too much time' );
-                // }
-            });
-    }, []);
-
-    // mapbox accessToken
-    useEffect( () => {
-        getMapboxAccessToken()
-            .then( setMapboxAccessToken )
-            .catch( err => {
-                console.log(err);
-            })
-    }, []);
+    
+    playSong(playlist[0].preview);
 
     // mapbox
     useEffect( () => {
@@ -141,49 +69,14 @@ export default ({ audioContext }) => {
         }
     }, [coords, mapboxAccessToken]);
 
-    // getWeather
-    useEffect( () => {
-        if( coords.length ) {
-            getWeather(coords)
-                .then( setWeatherReport )
-        }
-    }, [coords]);
-
-    // get Sticker
-    useEffect( () => {
-        if (weatherReport) {
-            const weatherDescriptionArray = weatherReport.weather[0].description.split(' ');
-            const query = weatherDescriptionArray.length > 1 ? weatherDescriptionArray[weatherDescriptionArray.length-1] : weatherDescriptionArray[0];
-            getSticker(query) 
-                .then( setStickerURL )
-        }
-    }, [weatherReport]);
-    
-    // get Song
-    useEffect( () => {
-        if ( weatherReport ) {
-            getSong(weatherReport.weather[0].description)
-                .then( song => { 
-                    postSong(song)
-                        .then( getPlaylist )
-                        .then( setPlaylist )
-                    return song;
-                })
-                .then( song => playSong(audioContext)(song.preview) )
-                .then( () => setLoading(false) )
-        }
-    }, [weatherReport])
-
     return (
         <Container fluid>
             <Row>
                 <Col lg={{span: 8, offset: 2}} sm={{span:12}}>
-                    { loadingStatus && <LoadBar /> }
-                    <MapContainer visible={!loadingStatus}>
+                    <MapContainer visible={true}>
                         
                         <MapDisplay id="weather-map"/>
                         {
-                            !loadingStatus &&
                             weatherReport &&
                             weatherReport.weather[0] &&
                             <WeatherDescription>
