@@ -13,9 +13,13 @@ export const PimpedModal = styled(Modal)`
         border-radius: 50px;
         border: 5px solid ${colors.cloud};
         background-color: ${colors.skyblue};
+        height: 350px;
     }
     div.modal-body {
         padding: 0px;
+    }
+    div.modal-footer {
+        border-top: 0;
     }
     h1 {
         margin: 20px;
@@ -28,7 +32,7 @@ export const PimpedModal = styled(Modal)`
         font-weight: inherit;
         border-radius: 20px;
         border: none;
-        margin: 20px;
+        margin: 0px auto;;
         background-color: ${colors.nightblue};
         transition: color 0.7s, background-color 0.7s;
     }
@@ -208,4 +212,5 @@ export const Collapsible = styled.div`
     h1, p {
         margin: 0 30px;
     }
+    padding: 10px;
 `
